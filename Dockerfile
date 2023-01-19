@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.1-cli
 
 # Copy composer.lock and composer.json
 COPY composer.lock composer.json /var/www/
@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    libzip-dev\
+    libzip-dev \
     libwebp-dev
 
 # Clear cache
@@ -29,6 +29,10 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql zip exif pcntl
 RUN docker-php-ext-configure gd --enable-gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
 RUN docker-php-ext-install gd
+
+#Install swoole
+RUN pecl install swoole
+RUN docker-php-ext-enable swoole
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -46,6 +50,6 @@ COPY --chown=www:www . /var/www
 # Change current user to www
 USER www
 
-# Expose port 9000 and start php-fpm server
-EXPOSE 9000
-CMD ["php-fpm"]
+# Expose port 8000 and start php-fpm server
+EXPOSE 8000
+CMD ["php", "artisan", "octane:start", "--host=0.0.0.0"]

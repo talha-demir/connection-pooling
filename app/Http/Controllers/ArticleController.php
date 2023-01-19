@@ -11,14 +11,16 @@ class ArticleController extends Controller
     {
         $a = Article::limit(100)->get();
 
-        sleep(60);
+        //sleep(5);
 
         return $a;
     }
 
     public function show(int $articleID)
     {
-        return Article::where('id', $articleID)->get();
+        $a = Article::where('id', $articleID)->get();
+        sleep(5);
+        return $a;
     }
 
     public function store(Request $request)
