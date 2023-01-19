@@ -11,7 +11,7 @@ class ArticleController extends Controller
     {
         $a = Article::limit(100)->get();
 
-        //sleep(5);
+        sleep(30);
 
         return $a;
     }
@@ -19,7 +19,7 @@ class ArticleController extends Controller
     public function show(int $articleID)
     {
         $a = Article::where('id', $articleID)->get();
-        sleep(5);
+        sleep(30);
         return $a;
     }
 
