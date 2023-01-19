@@ -11,7 +11,7 @@ class ArticleController extends Controller
     {
         $a = Article::limit(100)->get();
 
-        sleep(60);
+        sleep(30);
 
         return $a;
     }
